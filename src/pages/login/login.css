@@ -1,0 +1,7 @@
+.login-page {
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}

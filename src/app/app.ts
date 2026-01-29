@@ -1,7 +1,7 @@
 import { Screen } from "../interfaces/screen.interface.js";
 import header from "../layout/header/header.js";
 import MainCreator from "../utils/main/main-creator.js";
-import "../styles/styles.css";
+import "./app.css";
 import footer from "../layout/footer/footer.js";
 import { Page } from "../types/page.type.js";
 
@@ -53,9 +53,9 @@ export default class App {
       return;
     }
     if (page === "about" || page === "login") {
-      this.headerElement.classList.add("no-active");
+      this.headerElement.classList.add("none-display");
     } else {
-      this.headerElement.classList.remove("no-active");
+      this.headerElement.classList.remove("none-display");
     }
   }
 }
