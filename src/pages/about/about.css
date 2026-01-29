@@ -1,0 +1,37 @@
+.about-page {
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.about-info {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 20px;
+  gap: 20px;
+  align-items: center;
+  text-align: center;
+}
+
+.about-info__link:hover {
+  border-bottom: 2px solid black;
+  transition: 0.2s ease;
+}
+
+.about-info__back-button {
+  padding: 10px 30px;
+  border-radius: 10px;
+  background: black;
+  border: 1px solid black;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.about-info__back-button:hover {
+  background: white;
+  color: black;
+}
