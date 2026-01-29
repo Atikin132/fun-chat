@@ -1,8 +1,9 @@
+import { Page } from "../types/page.type.js";
 import App from "./app.js";
 
 const BASE_PATH = "/atikin132-JSFE2025Q3/fun-chat";
 
-const routes: Record<string, string> = {
+const routes: Record<string, Page> = {
   "/login": "login",
   "/main": "main",
   "/about": "about",
