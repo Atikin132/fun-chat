@@ -6,6 +6,7 @@ import { Main } from "./pages/main/main.js";
 
 const app = new App(document.body);
 
+app.init("User123");
 app.register("login", new Login());
 app.register("main", new Main());
 app.register("about", new About());

@@ -4,9 +4,6 @@ export class Main extends BasePage {
   create(parent: HTMLElement): void {
     parent.append(this.container);
     this.container.innerHTML = `
-      <h2>Main</h2>
-      <button data-route="/login">Go to Login</button>
-      <button data-route="/about">Go to About</button>
-    `;
+      <h2>Main</h2>`;
   }
 }
