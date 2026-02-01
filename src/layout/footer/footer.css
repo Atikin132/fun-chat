@@ -3,6 +3,7 @@
   justify-content: space-between;
   padding: 20px;
   border-top: 2px solid black;
+  flex-shrink: 0;
 }
 
 .footer a {

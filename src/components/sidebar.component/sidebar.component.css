@@ -1,0 +1,36 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: clamp(2px, 1vw, 16px);
+  gap: 10px;
+  height: 100%;
+}
+
+.sidebar__search-input {
+  height: fit-content;
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+.sidebar__search-input:focus {
+  outline: none;
+  border-color: black;
+}
+
+.sidebar__users-container {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
+}

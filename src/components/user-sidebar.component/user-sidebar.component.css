@@ -1,0 +1,37 @@
+.user-sidebar-container {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: 5px;
+}
+
+.user-sidebar-container:hover {
+  background-color: #ccc;
+}
+
+.user-sidebar-container__status {
+  width: 6px;
+  height: 6px;
+  background-color: red;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+.user-sidebar-container__status.logined {
+  background-color: greenyellow;
+}
+.user-sidebar-container__user-message-container {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  gap: 5px;
+}
+
+.user-sidebar-container__message {
+  padding: 1px 4px;
+  border-radius: 50%;
+  border: 1px solid green;
+  font-size: 0.7em;
+}
+.user-sidebar-container__message.no-message {
+  display: none;
+}
