@@ -1,0 +1,80 @@
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: clamp(2px, 1vw, 10px);
+  gap: 10px;
+  height: 100%;
+  flex: 2;
+  min-height: 0;
+}
+
+.dialog-container__selected-user {
+  min-height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-bottom: 1px solid black;
+  flex-shrink: 0;
+}
+
+.selected-user__user-status {
+  color: red;
+}
+
+.selected-user__user-status.logined {
+  color: #00ff00;
+}
+
+.messages-container {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.messages-container__no-selected-user-text {
+  width: 100%;
+  align-self: center;
+  text-align: center;
+}
+
+.text-area-send-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+  padding: 10px;
+  border-top: 1px solid black;
+  flex-shrink: 0;
+}
+
+.text-area-send-container__message-text-area {
+  padding: 4px 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  flex: 1;
+  width: 90%;
+  min-width: 0px;
+}
+.text-area-send-container__message-text-area.no-active {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.text-area-send-container__send-button {
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-position: center;
+  object-fit: contain;
+  background-color: transparent;
+  background-image: url("../../assets/svg/send.svg");
+}
+.text-area-send-container__send-button.no-active {
+  opacity: 30%;
+}
+.text-area-send-container__send-button.no-active:hover {
+  cursor: not-allowed;
+}

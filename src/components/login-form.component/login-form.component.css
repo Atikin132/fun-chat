@@ -24,6 +24,11 @@
   gap: 20px;
 }
 
+.login-form__login-input-label,
+.login-form__password-input-label {
+  font-size: 1rem;
+}
+
 .login-form__login-input,
 .login-form__password-input {
   padding: 8px 8px;

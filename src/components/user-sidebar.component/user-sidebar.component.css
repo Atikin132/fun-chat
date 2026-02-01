@@ -3,6 +3,7 @@
   cursor: pointer;
   align-items: center;
   gap: 5px;
+  padding: 5px 0;
 }
 
 .user-sidebar-container:hover {
@@ -17,20 +18,27 @@
   border-radius: 50%;
 }
 .user-sidebar-container__status.logined {
-  background-color: greenyellow;
+  background-color: #00ff00;
 }
 .user-sidebar-container__user-message-container {
   display: flex;
   justify-content: space-between;
   flex: 1;
   gap: 5px;
+  align-items: center;
 }
 
+.user-sidebar-container__name {
+  word-break: break-word;
+}
 .user-sidebar-container__message {
   padding: 1px 4px;
   border-radius: 50%;
   border: 1px solid green;
   font-size: 0.7em;
+  display: flex;
+  align-items: center;
+  height: fit-content;
 }
 .user-sidebar-container__message.no-message {
   display: none;

@@ -1,3 +1,4 @@
+import dialogComponent from "../../components/dialog.component/dialog.component.js";
 import sidebarComponent from "../../components/sidebar.component/sidebar.component.js";
 import { User } from "../../interfaces/user.interface.js";
 import { BasePage } from "../base-page.js";
@@ -35,5 +36,6 @@ export class Main extends BasePage {
       { login: "Mmmmmmmmmmmm", isLogined: false },
     ];
     this.container.append(sidebarComponent(users));
+    this.container.append(dialogComponent());
   }
 }

@@ -20,7 +20,6 @@ export default function sidebarComponent(users: User[]): HTMLElement {
   searchInput.type = "text";
   searchInput.name = "search";
   searchInput.setAttribute("maxlength", LOGIN_MAX_SIZE);
-  searchInput.setAttribute("required", "true");
   searchInput.autocomplete = "off";
 
   const usersContainer = new UnorderedListCreator({

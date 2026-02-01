@@ -2,4 +2,5 @@
   flex: 1;
   justify-content: space-between;
   min-height: 0;
+  gap: 5px;
 }

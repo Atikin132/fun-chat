@@ -3,14 +3,16 @@
   flex-direction: column;
   border-radius: 10px;
   border: 1px solid black;
-  padding: clamp(2px, 1vw, 16px);
+  padding: clamp(2px, 1vw, 10px);
   gap: 10px;
   height: 100%;
+  flex: 1;
+  max-width: 35vw;
 }
 
 .sidebar__search-input {
   height: fit-content;
-  padding: 8px;
+  padding: 5px 8px;
   font-size: 1rem;
   border-radius: 10px;
   border: 1px solid #ccc;
