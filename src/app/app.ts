@@ -4,6 +4,7 @@ import MainCreator from "../utils/main/main-creator.js";
 import "./app.css";
 import footer from "../layout/footer/footer.js";
 import { Page } from "../types/page.type.js";
+import { authController } from "../controllers/auth.controller.js";
 
 export default class App {
   private screens = new Map<Page, Screen>();
@@ -18,8 +19,16 @@ export default class App {
     this.root = root;
   }
 
-  init(user: string): void {
-    this.headerElement = header(user);
+  init(): void {
+    this.headerElement = header(
+      authController.getUser()?.login ?? "",
+      async () => {
+        await authController.logout(
+          authController.getUser()?.login ?? "",
+          authController.getUser()?.password ?? "",
+        );
+      },
+    );
     this.main = new MainCreator({
       classes: ["main"],
     }).getElement();
@@ -55,7 +64,17 @@ export default class App {
     if (page === "about" || page === "login") {
       this.headerElement.classList.add("none-display");
     } else {
-      this.headerElement.classList.remove("none-display");
+      const newHeader = header(
+        authController.getUser()?.login ?? "",
+        async () => {
+          await authController.logout(
+            authController.getUser()?.login ?? "",
+            authController.getUser()?.password ?? "",
+          );
+        },
+      );
+      this.headerElement.replaceWith(newHeader);
+      this.headerElement = newHeader;
     }
   }
 }

@@ -1,4 +1,5 @@
 import loginFormComponent from "../../components/login-form.component/login-form.component.js";
+import { authController } from "../../controllers/auth.controller.js";
 import { BasePage } from "../base-page.js";
 import "./login.css";
 
@@ -6,6 +7,25 @@ export class Login extends BasePage {
   create(parent: HTMLElement): void {
     parent.append(this.container);
     this.container.classList.add("login-page");
-    this.container.append(loginFormComponent());
+    this.container.append(
+      loginFormComponent(async () => {
+        await this.login();
+      }),
+    );
+  }
+
+  async login() {
+    const loginInput = this.container.querySelector<HTMLInputElement>(
+      ".login-form__login-input",
+    );
+    const passwordInput = this.container.querySelector<HTMLInputElement>(
+      ".login-form__password-input",
+    );
+
+    if (!loginInput || !passwordInput) {
+      return;
+    }
+
+    await authController.login(loginInput.value, passwordInput.value);
   }
 }

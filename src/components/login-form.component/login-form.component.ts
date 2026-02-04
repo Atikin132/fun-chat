@@ -5,8 +5,34 @@ import "./login-form.component.css";
 import ButtonCreator from "../../utils/button/button-creator.js";
 
 const LOGIN_MAX_SIZE = "12";
+const LOGIN_MIN_SIZE = 4;
+const PASSWORD_MIN_SIZE = 6;
 
-export default function loginFormComponent(): HTMLElement {
+const validateInput = (inputElement: HTMLInputElement, min: number) => {
+  const value = inputElement.value.trim();
+  inputElement.classList.remove("invalid");
+
+  if (value.length < min) {
+    inputElement.setCustomValidity(`Minimum ${min} characters`);
+    inputElement.classList.add("invalid");
+    return false;
+  }
+
+  if (inputElement.name === "password" && !/\p{Lu}/u.test(value)) {
+    inputElement.setCustomValidity(
+      "Password must contain at least one capital letter",
+    );
+    inputElement.classList.add("invalid");
+    return false;
+  }
+
+  inputElement.setCustomValidity("");
+  return true;
+};
+
+export default function loginFormComponent(
+  login: () => Promise<void>,
+): HTMLElement {
   const loginForm = new ElementCreator({
     classes: ["login-form"],
   }).getElement();
@@ -34,6 +60,7 @@ export default function loginFormComponent(): HTMLElement {
     placeholder: "Enter name",
   }).getElement();
   loginInput.id = "login";
+  loginInput.name = "login";
   loginInput.type = "text";
   loginInput.setAttribute("maxlength", LOGIN_MAX_SIZE);
   loginInput.setAttribute("required", "true");
@@ -57,22 +84,48 @@ export default function loginFormComponent(): HTMLElement {
     placeholder: "Enter password",
   }).getElement();
   passwordInput.id = "password";
+  passwordInput.name = "password";
   passwordInput.type = "password";
   passwordInput.setAttribute("required", "true");
   passwordInput.autocomplete = "off";
 
   const loginButton = new ButtonCreator({
     text: "Login",
-    classes: ["login-form__login-button", "button"],
+    classes: ["login-form__login-button", "no-active", "button"],
     parent: loginForm,
   }).getElement();
-  loginButton.dataset.route = "/main";
+  loginButton.disabled = true;
+  loginButton.addEventListener("click", () => {
+    void login();
+    loginInput.value = "";
+    passwordInput.value = "";
+    loginButton.disabled = true;
+    loginButton.classList.add("no-active");
+  });
 
   const aboutButton = new ButtonCreator({
     classes: ["login-form__about-button", "button"],
     parent: loginForm,
   }).getElement();
   aboutButton.dataset.route = "/about";
+
+  const handleInput = (inputEl: HTMLInputElement, min: number) => {
+    validateInput(inputEl, min);
+    inputEl.reportValidity();
+    const isLoginAndPasswordValid =
+      loginInput.checkValidity() && passwordInput.checkValidity();
+
+    loginButton.disabled = !isLoginAndPasswordValid;
+    loginButton.classList.toggle("no-active", !isLoginAndPasswordValid);
+  };
+
+  loginInput.addEventListener("input", () =>
+    handleInput(loginInput, LOGIN_MIN_SIZE),
+  );
+
+  passwordInput.addEventListener("input", () =>
+    handleInput(passwordInput, PASSWORD_MIN_SIZE),
+  );
 
   return loginForm;
 }

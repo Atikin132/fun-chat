@@ -9,7 +9,10 @@ import "./header.css";
 
 const HEADINGS_ONE = 1;
 
-export default function header(user: string): HTMLElement {
+export default function header(
+  user: string,
+  logout: () => Promise<void>,
+): HTMLElement {
   const headerCreator = new HeaderCreator({
     classes: ["header"],
   });
@@ -57,8 +60,9 @@ export default function header(user: string): HTMLElement {
     parent: logoutLi,
     classes: ["logout-button", "button"],
   }).getElement();
-
-  logoutButton.dataset.route = "/login";
+  logoutButton.addEventListener("click", () => {
+    void logout();
+  });
 
   return headerCreator.getElement();
 }
