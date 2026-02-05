@@ -14,12 +14,8 @@ export class Router {
   constructor(private app: App) {}
 
   init(): void {
-    authController.subscribe((user) => {
-      if (user) {
-        this.go("/main");
-      } else {
-        this.go("/login");
-      }
+    authController.subscribe(() => {
+      this.resolve();
     });
 
     document.addEventListener("click", (event: MouseEvent) => {
@@ -67,17 +63,24 @@ export class Router {
     const path = fullPath.startsWith(BASE_PATH)
       ? fullPath.slice(BASE_PATH.length)
       : fullPath;
+
     const normalizedPath = path === "" || path === "/" ? "/main" : path;
     const page = routes[normalizedPath];
-
     const user = authController.getUser();
+
+    if (user && normalizedPath === "/login") {
+      this.app.navigate("main");
+      history.replaceState(undefined, "", `${BASE_PATH}/main`);
+      return;
+    }
 
     if (!user && normalizedPath !== "/login") {
       this.app.navigate("login");
       history.replaceState(undefined, "", `${BASE_PATH}/login`);
       return;
     }
-    if (page === undefined) {
+
+    if (!page) {
       this.app.navigate("main");
       history.replaceState(undefined, "", `${BASE_PATH}/main`);
       return;
