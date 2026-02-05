@@ -5,6 +5,10 @@ import {
   UserAuthPayload,
   UsersPayload,
 } from "../interfaces/user-payloads.interface.js";
+import {
+  isUserAuthPayload,
+  isUsersPayload,
+} from "../guards/is-user-payload.guard.js";
 
 type UserMessageHandler = () => void;
 
@@ -30,19 +34,27 @@ export class UsersController {
 
       switch (type) {
         case "USER_EXTERNAL_LOGIN": {
-          this.userExternalLogin(payload as UserAuthPayload);
+          if (isUserAuthPayload(payload)) {
+            this.userExternalLogin(payload);
+          }
           break;
         }
         case "USER_EXTERNAL_LOGOUT": {
-          this.userExternalLogout(payload as UserAuthPayload);
+          if (isUserAuthPayload(payload)) {
+            this.userExternalLogout(payload);
+          }
           break;
         }
         case "USER_ACTIVE": {
-          this.userActive(payload as UsersPayload);
+          if (isUsersPayload(payload)) {
+            this.userActive(payload);
+          }
           break;
         }
         case "USER_INACTIVE": {
-          this.userInactive(payload as UsersPayload);
+          if (isUsersPayload(payload)) {
+            this.userInactive(payload);
+          }
           break;
         }
       }

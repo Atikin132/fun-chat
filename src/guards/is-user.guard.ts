@@ -10,3 +10,12 @@ export function isUser(obj: unknown): obj is User {
     hasBooleanProp(obj, "isLogined")
   );
 }
+
+export function isUserWithLogined(obj: unknown): obj is User {
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    hasStringProp(obj, "login") &&
+    hasBooleanProp(obj, "isLogined")
+  );
+}
