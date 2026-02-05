@@ -10,3 +10,11 @@ export function isServerMessage(obj: unknown): obj is ServerMessage {
     "payload" in obj
   );
 }
+export function isServerMessageTypePayload(obj: unknown): obj is ServerMessage {
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    hasStringProp(obj, "type") &&
+    "payload" in obj
+  );
+}

@@ -17,6 +17,20 @@ export class AuthService {
     return this.sendAuthRequest("USER_LOGOUT", login, password);
   }
 
+  async getActiveInactiveUsers(): Promise<void> {
+    await wsService.send({
+      id: generateId(),
+      type: "USER_ACTIVE",
+      payload: null,
+    });
+
+    await wsService.send({
+      id: generateId(),
+      type: "USER_INACTIVE",
+      payload: null,
+    });
+  }
+
   private sendAuthRequest(
     type: "USER_LOGIN" | "USER_LOGOUT",
     login: string,

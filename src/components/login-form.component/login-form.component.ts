@@ -110,6 +110,7 @@ export default function loginFormComponent(
   aboutButton.dataset.route = "/about";
 
   const handleInput = (inputEl: HTMLInputElement, min: number) => {
+    inputEl.value = inputEl.value.replaceAll(/\s/g, "");
     validateInput(inputEl, min);
     inputEl.reportValidity();
     const isLoginAndPasswordValid =

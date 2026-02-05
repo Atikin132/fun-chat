@@ -14,6 +14,7 @@ export class AuthController {
     this.currentUser = user;
     this.currentUser.password = password;
     sessionStorage.setItem("user", JSON.stringify(user));
+    await this.authService.getActiveInactiveUsers();
     this.notify();
   }
 

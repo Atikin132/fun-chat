@@ -28,6 +28,7 @@ module.exports = {
     "prettier/prettier": "error",
     "import/extensions": "off",
     "no-console": "error",
+    "unicorn/no-null": "off",
     "unicorn/prevent-abbreviations": "off",
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-unsafe-assignment": "error",

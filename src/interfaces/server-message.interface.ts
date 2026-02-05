@@ -1,5 +1,5 @@
 export interface ServerMessage {
-  id: string;
+  id: string | null;
   type: string;
   payload: unknown;
 }
