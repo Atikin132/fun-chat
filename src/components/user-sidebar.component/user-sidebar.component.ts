@@ -8,6 +8,8 @@ export default function userSidebarComponent(user: User): HTMLElement {
   const userContainer = new ListItemCreator({
     classes: ["user-sidebar-container"],
   }).getElement();
+  userContainer.dataset.login = user.login;
+  userContainer.dataset.status = String(user.isLogined);
 
   const status = new ElementCreator({
     parent: userContainer,

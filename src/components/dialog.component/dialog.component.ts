@@ -64,12 +64,12 @@ export default function dialogComponent(user?: User): HTMLElement {
     parent: textAreaSendContainer,
     classes: ["text-area-send-container__send-button", "button"],
   }).getElement();
+  sendButton.classList.add("no-active");
+  sendButton.disabled = true;
 
   if (user === undefined) {
     messageTextArea.classList.add("no-active");
     messageTextArea.disabled = true;
-    sendButton.classList.add("no-active");
-    sendButton.disabled = true;
   }
   return dialogContainer;
 }

@@ -15,10 +15,31 @@ function renderUserList(usersContainer: HTMLElement, filteredUsers: User[]) {
   }
 }
 
-export default function sidebarComponent(users: User[]): HTMLElement {
+export default function sidebarComponent(
+  users: User[],
+  updateDialog: (user: User) => void,
+): HTMLElement {
   const sidebar = new AsideCreator({
     classes: ["sidebar"],
   }).getElement();
+
+  sidebar.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+    const userSidebarContainer = target.closest<HTMLElement>(
+      ".user-sidebar-container",
+    );
+    if (userSidebarContainer) {
+      updateDialog({
+        login: userSidebarContainer.dataset.login ?? "",
+        isLogined: userSidebarContainer.dataset.status === "true",
+      });
+    } else {
+      return;
+    }
+  });
 
   const searchInput = new InputCreator({
     parent: sidebar,
