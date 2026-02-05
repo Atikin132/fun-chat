@@ -7,6 +7,14 @@ import "./sidebar.component.css";
 
 const LOGIN_MAX_SIZE = "12";
 
+function renderUserList(usersContainer: HTMLElement, filteredUsers: User[]) {
+  usersContainer.innerHTML = "";
+  filteredUsers.sort((a, b) => Number(b.isLogined) - Number(a.isLogined));
+  for (const user of filteredUsers) {
+    usersContainer.append(userSidebarComponent(user));
+  }
+}
+
 export default function sidebarComponent(users: User[]): HTMLElement {
   const sidebar = new AsideCreator({
     classes: ["sidebar"],
@@ -27,10 +35,19 @@ export default function sidebarComponent(users: User[]): HTMLElement {
     classes: ["sidebar__users-container"],
   }).getElement();
 
-  users.sort((a, b) => Number(b.isLogined) - Number(a.isLogined));
+  renderUserList(usersContainer, users);
 
-  for (const user of users) {
-    usersContainer.append(userSidebarComponent(user));
-  }
+  searchInput.addEventListener("input", () => {
+    const searchValue = searchInput.value.trim().toLowerCase();
+    if (searchValue) {
+      const filteredUsers = users.filter((user) =>
+        user.login.toLowerCase().includes(searchValue),
+      );
+      renderUserList(usersContainer, filteredUsers);
+    } else {
+      renderUserList(usersContainer, users);
+    }
+  });
+
   return sidebar;
 }
