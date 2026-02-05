@@ -23,6 +23,7 @@ export class Main extends BasePage {
     this.sidebar = sidebarComponent(usersWithoutCurrent, (user: User) => {
       this.updateDialog(user);
     });
+    this.updateDialog();
     this.container.prepend(this.sidebar);
   }
 
@@ -39,7 +40,7 @@ export class Main extends BasePage {
     this.renderUsers();
   }
 
-  updateDialog(user: User) {
+  updateDialog(user?: User) {
     if (this.dialog) {
       this.dialog.remove();
     }
