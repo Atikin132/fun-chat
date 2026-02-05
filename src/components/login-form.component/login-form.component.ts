@@ -95,12 +95,23 @@ export default function loginFormComponent(
     parent: loginForm,
   }).getElement();
   loginButton.disabled = true;
-  loginButton.addEventListener("click", () => {
+
+  const submitLogin = () => {
     void login();
     loginInput.value = "";
     passwordInput.value = "";
     loginButton.disabled = true;
     loginButton.classList.add("no-active");
+  };
+
+  loginButton.addEventListener("click", submitLogin);
+
+  loginForm.addEventListener("keydown", (event: KeyboardEvent) => {
+    if (event.key !== "Enter") return;
+    if (loginButton.disabled) return;
+
+    event.preventDefault();
+    submitLogin();
   });
 
   const aboutButton = new ButtonCreator({
