@@ -1,4 +1,5 @@
 import loginFormComponent from "../../components/login-form.component/login-form.component.js";
+import notificationComponent from "../../components/notification.component/notification.component.js";
 import { authController } from "../../controllers/auth.controller.js";
 import { BasePage } from "../base-page.js";
 import "./login.css";
@@ -15,17 +16,25 @@ export class Login extends BasePage {
   }
 
   async login() {
-    const loginInput = this.container.querySelector<HTMLInputElement>(
-      ".login-form__login-input",
-    );
-    const passwordInput = this.container.querySelector<HTMLInputElement>(
-      ".login-form__password-input",
-    );
+    try {
+      const loginInput = this.container.querySelector<HTMLInputElement>(
+        ".login-form__login-input",
+      );
+      const passwordInput = this.container.querySelector<HTMLInputElement>(
+        ".login-form__password-input",
+      );
 
-    if (!loginInput || !passwordInput) {
-      return;
+      if (!loginInput || !passwordInput) {
+        return;
+      }
+
+      await authController.login(loginInput.value, passwordInput.value);
+    } catch (error) {
+      if (error instanceof Error) {
+        this.container.append(notificationComponent(error.message));
+      } else {
+        this.container.append(notificationComponent("Unknown error"));
+      }
     }
-
-    await authController.login(loginInput.value, passwordInput.value);
   }
 }

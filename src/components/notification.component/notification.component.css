@@ -1,0 +1,45 @@
+.notification-overlay {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  user-select: none;
+}
+
+.notification-container {
+  width: 80vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.notification-container__message {
+  width: fit-content;
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+.notification-container .ok-button {
+  width: fit-content;
+  background-color: transparent;
+  border: 1px solid black;
+  font-size: 0.8rem;
+  padding: 10px 20px;
+  border-radius: 10px;
+  transition: 0.3s ease;
+}
+
+.notification-container .ok-button:hover {
+  color: white;
+  background-color: black;
+}
