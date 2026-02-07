@@ -62,6 +62,7 @@ export default function header(
   }).getElement();
   logoutButton.addEventListener("click", () => {
     void logout();
+    window.location.reload();
   });
 
   return headerCreator.getElement();

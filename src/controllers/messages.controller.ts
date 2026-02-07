@@ -5,13 +5,14 @@ import {
   isMessagePayload,
   isMessagesPayload,
 } from "../guards/is-message-payload.guard.js";
+import { User } from "../interfaces/user.interface.js";
 import { authController } from "./auth.controller.js";
 
 type MessageRenderHandler = () => void;
 
 export class MessagesController {
   private dialogs = new Map<string, Message[]>();
-  private myLogin = authController.getUser()?.login;
+  withUser?: User;
 
   private renderCallback?: MessageRenderHandler | undefined;
 
@@ -44,7 +45,10 @@ export class MessagesController {
 
         case "MSG_FROM_USER": {
           if (isMessagesPayload(payload)) {
-            this.onMessagesHistory(payload.messages);
+            this.onMessagesHistory(
+              payload.messages,
+              this.withUser?.login ?? "",
+            );
           }
           break;
         }
@@ -83,18 +87,19 @@ export class MessagesController {
   }
 
   private onMessageReceived(message: Message) {
-    const dialogKey = this.getDialogKey(message);
-    const dialog = this.ensureDialog(dialogKey);
+    const otherUser =
+      message.from === authController.getUser()?.login
+        ? message.to
+        : message.from;
+    const dialog = this.ensureDialog(otherUser);
 
     dialog.push(message);
   }
 
-  private onMessagesHistory(messages: Message[]) {
+  private onMessagesHistory(messages: Message[], requestedUserLogin: string) {
     if (messages.length === 0) return;
-    if (messages[0] !== undefined) {
-      const dialogKey = this.getDialogKey(messages[0]);
-      this.dialogs.set(dialogKey, [...messages]);
-    }
+
+    this.dialogs.set(requestedUserLogin, [...messages]);
   }
 
   private onMessageDelivered(messageId: string) {
@@ -139,10 +144,6 @@ export class MessagesController {
         return;
       }
     }
-  }
-
-  private getDialogKey(message: Message): string {
-    return message.from === this.myLogin ? message.to : message.from;
   }
 }
 

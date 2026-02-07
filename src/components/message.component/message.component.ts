@@ -4,6 +4,7 @@ import ParagraphCreator from "../../utils/paragraph/paragraph-creator.js";
 import "./message.component.css";
 
 export default function messageComponent(
+  userLogin: string,
   message: Message,
   isOutgoing: boolean,
 ): HTMLElement {
@@ -25,13 +26,13 @@ export default function messageComponent(
     classes: ["from-date-container__from"],
     parent: fromDateContainer,
   }).getElement();
-  from.textContent = message.from;
+  from.textContent = message.from === userLogin ? "you" : message.from;
 
   const date = new ParagraphCreator({
     classes: ["from-date-container__date"],
     parent: fromDateContainer,
   }).getElement();
-  date.textContent = message.datetime.toString();
+  date.textContent = new Date(message.datetime).toLocaleString();
 
   const text = new ParagraphCreator({
     classes: ["message-container__text"],

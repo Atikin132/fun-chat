@@ -18,7 +18,9 @@
 .from-date-container,
 .condition-status-container {
   display: flex;
-  padding: 0 15px;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 0 5px;
   justify-content: space-between;
   font-size: 0.7em;
 }
