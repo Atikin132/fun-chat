@@ -51,22 +51,27 @@ export class Main extends BasePage {
   }
 
   private renderDialog(user?: User) {
-    if (this.dialog) {
-      this.dialog.remove();
-    }
-
-    this.dialog = dialogComponent(user, async (text: string) => {
-      if (this.currentSelectedUser?.login !== undefined) {
-        await messagesService.sendMessage(this.currentSelectedUser.login, text);
-      }
-    });
-
-    const messagesContainer = this.dialog.querySelector<HTMLElement>(
-      ".messages-container",
-    );
-
     if (user?.login !== undefined) {
+      if (this.dialog) {
+        this.dialog.remove();
+      }
       const messages = messagesController.getDialog(user?.login ?? "");
+      this.dialog = dialogComponent(
+        user,
+        async (text: string) => {
+          if (this.currentSelectedUser?.login !== undefined) {
+            await messagesService.sendMessage(
+              this.currentSelectedUser.login,
+              text,
+            );
+          }
+        },
+        messages.length === 0,
+      );
+
+      const messagesContainer = this.dialog.querySelector<HTMLElement>(
+        ".messages-container",
+      );
       for (const message of messages) {
         messagesContainer?.append(
           messageComponent(
@@ -76,9 +81,9 @@ export class Main extends BasePage {
           ),
         );
       }
-    }
 
-    this.container.append(this.dialog);
-    scrollToBottom(messagesContainer);
+      this.container.append(this.dialog);
+      scrollToBottom(messagesContainer);
+    }
   }
 }

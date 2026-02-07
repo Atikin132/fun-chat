@@ -41,7 +41,8 @@
   margin-top: auto;
 }
 
-.messages-container__no-selected-user-text {
+.messages-container__no-selected-user-text,
+.messages-container__no-message-text {
   width: 100%;
   margin: auto 0;
   text-align: center;

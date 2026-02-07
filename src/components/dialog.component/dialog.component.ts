@@ -8,6 +8,7 @@ import "./dialog.component.css";
 export default function dialogComponent(
   user?: User,
   sendMessage?: (text: string) => Promise<void>,
+  isNoMessages?: boolean,
 ): HTMLElement {
   const dialogContainer = new ElementCreator({
     classes: ["dialog-container"],
@@ -48,6 +49,13 @@ export default function dialogComponent(
       classes: ["messages-container__no-selected-user-text"],
     }).getElement();
     noSelectedUserText.textContent = "Select a user to send the message...";
+  }
+  if (isNoMessages !== undefined && isNoMessages) {
+    const noMessageText = new ParagraphCreator({
+      parent: messagesContainer,
+      classes: ["messages-container__no-message-text"],
+    }).getElement();
+    noMessageText.textContent = "Write your first message...";
   }
 
   const textAreaSendContainer = new ElementCreator({
