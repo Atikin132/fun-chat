@@ -1,0 +1,44 @@
+.message-container {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  border-radius: 10px;
+  background-color: rgba(204, 204, 204, 0.2);
+  border: 1px solid #ccc;
+  padding: 5px 8px;
+  gap: 2px;
+}
+.message-container.incoming {
+  align-self: flex-start;
+}
+.message-container.outgoing {
+  align-self: flex-end;
+}
+
+.from-date-container,
+.condition-status-container {
+  display: flex;
+  padding: 0 15px;
+  justify-content: space-between;
+  font-size: 0.7em;
+}
+
+.message-container__text {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  text-align: justify;
+  padding: 5px 10px;
+}
+
+.condition-status-container {
+  justify-content: flex-end;
+  padding: 0 5px;
+}
+.condition-status-container:has(.condition-status-container__condition) {
+  justify-content: space-between;
+}
+
+.condition-status-container__status {
+  align-self: flex-end;
+}
