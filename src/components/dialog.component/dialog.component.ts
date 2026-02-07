@@ -8,6 +8,8 @@ import TextAreaCreator from "../../utils/text-area/text-area-creator.js";
 import { customContextMenuComponent } from "../custom-menu.component/custom-context-menu.component.js";
 import "./dialog.component.css";
 
+export const messageEdit = { id: "", text: "" };
+
 export default function dialogComponent(
   user?: User,
   sendMessage?: (text: string) => Promise<void>,
@@ -71,8 +73,18 @@ export default function dialogComponent(
       event.preventDefault();
 
       const menu = customContextMenuComponent(
-        async () => {
-          await messagesService.editMessage("1", "2");
+        () => {
+          messageEdit.id = messageContainer.dataset.id ?? "";
+          const textArea = document.querySelector<HTMLTextAreaElement>(
+            ".text-area-send-container__message-text-area",
+          );
+          if (textArea) {
+            const messageText =
+              messageContainer.querySelector(".message-container__text")
+                ?.textContent ?? "";
+            textArea.value = messageText;
+            messageEdit.text = messageText;
+          }
         },
         async () => {
           await messagesService.deleteMessage(

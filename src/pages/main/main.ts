@@ -1,4 +1,6 @@
-import dialogComponent from "../../components/dialog.component/dialog.component.js";
+import dialogComponent, {
+  messageEdit,
+} from "../../components/dialog.component/dialog.component.js";
 import messageComponent from "../../components/message.component/message.component.js";
 import sidebarComponent from "../../components/sidebar.component/sidebar.component.js";
 import { authController } from "../../controllers/auth.controller.js";
@@ -62,7 +64,11 @@ export class Main extends BasePage {
       this.dialog = dialogComponent(
         user,
         async (text: string) => {
-          if (this.currentSelectedUser?.login !== undefined) {
+          if (messageEdit.id) {
+            await messagesService.editMessage(messageEdit.id, text);
+            messageEdit.id = "";
+            messageEdit.text = "";
+          } else if (this.currentSelectedUser?.login !== undefined) {
             await messagesService.sendMessage(
               this.currentSelectedUser.login,
               text,

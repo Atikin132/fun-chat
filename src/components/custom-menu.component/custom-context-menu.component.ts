@@ -2,7 +2,7 @@ import ElementCreator from "../../utils/element-creator.js";
 import "./custom-context-menu.component.css";
 
 export function customContextMenuComponent(
-  editMessage: () => Promise<void>,
+  editMessage: () => void,
   deleteMessage: () => Promise<void>,
 ): HTMLElement {
   const menu = new ElementCreator({
