@@ -84,6 +84,16 @@ export default function dialogComponent(
     }
   });
 
+  dialogContainer.addEventListener("keydown", (event: KeyboardEvent) => {
+    if (event.key !== "Enter") return;
+    if (sendButton.disabled) return;
+
+    event.preventDefault();
+    if (sendMessage) {
+      void sendMessage(messageTextArea.value);
+    }
+  });
+
   if (user === undefined) {
     messageTextArea.classList.add("no-active");
     messageTextArea.disabled = true;

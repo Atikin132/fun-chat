@@ -52,16 +52,17 @@ export default function messageComponent(
     }).getElement();
     condition.textContent = "Changed";
   }
-
-  const status = new ParagraphCreator({
-    classes: ["condition-status-container__status"],
-    parent: conditionStatusContainer,
-  }).getElement();
-  if (message.status.isDelivered) {
-    status.textContent = "Delivered";
-  }
-  if (message.status.isReaded) {
-    status.textContent = "Readed";
+  if (isOutgoing) {
+    const status = new ParagraphCreator({
+      classes: ["condition-status-container__status"],
+      parent: conditionStatusContainer,
+    }).getElement();
+    if (message.status.isDelivered) {
+      status.textContent = "Delivered";
+    }
+    if (message.status.isReaded) {
+      status.textContent = "Readed";
+    }
   }
 
   return messageContainer;
