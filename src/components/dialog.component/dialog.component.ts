@@ -75,7 +75,9 @@ export default function dialogComponent(
           await messagesService.editMessage("1", "2");
         },
         async () => {
-          await messagesService.deleteMessage("1");
+          await messagesService.deleteMessage(
+            messageContainer.dataset.id ?? "",
+          );
         },
       );
 
