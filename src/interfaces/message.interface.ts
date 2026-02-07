@@ -1,4 +1,4 @@
-import { StatusMessage } from "./status-message.interface.js";
+import { MessageStatus } from "./message-status.interface.js";
 
 export interface Message {
   id: string;
@@ -6,5 +6,5 @@ export interface Message {
   to: string;
   text: string;
   datetime: number;
-  status: StatusMessage;
+  status: MessageStatus;
 }
