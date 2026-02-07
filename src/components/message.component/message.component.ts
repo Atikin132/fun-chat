@@ -16,6 +16,7 @@ export default function messageComponent(
   } else {
     messageContainer.classList.add("incoming");
   }
+  messageContainer.dataset.id = message.id;
 
   const fromDateContainer = new ElementCreator({
     parent: messageContainer,

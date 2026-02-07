@@ -55,7 +55,10 @@ export class Main extends BasePage {
       if (this.dialog) {
         this.dialog.remove();
       }
-      const messages = messagesController.getDialog(user?.login ?? "");
+      const messages = messagesController
+        .getDialog(user?.login ?? "")
+        .filter((message) => !message.status.isDeleted);
+
       this.dialog = dialogComponent(
         user,
         async (text: string) => {

@@ -1,0 +1,33 @@
+.custom-context-menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 5px;
+  min-width: 40px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.custom-context-menu__edit-item,
+.custom-context-menu__delete-item {
+  width: 100%;
+  padding: 5px 5px;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid black;
+  background: white;
+  color: black;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.custom-context-menu__edit-item:hover,
+.custom-context-menu__delete-item:hover {
+  background: black;
+  color: white;
+}

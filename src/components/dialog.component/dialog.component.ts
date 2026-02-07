@@ -1,8 +1,11 @@
 import { User } from "../../interfaces/user.interface.js";
+import { messagesService } from "../../services/messages.service.js";
 import ButtonCreator from "../../utils/button/button-creator.js";
 import ElementCreator from "../../utils/element-creator.js";
 import ParagraphCreator from "../../utils/paragraph/paragraph-creator.js";
+import { showContextMenu } from "../../utils/show-custom-context-menu.js";
 import TextAreaCreator from "../../utils/text-area/text-area-creator.js";
+import { customContextMenuComponent } from "../custom-menu.component/custom-context-menu.component.js";
 import "./dialog.component.css";
 
 export default function dialogComponent(
@@ -57,6 +60,28 @@ export default function dialogComponent(
     }).getElement();
     noMessageText.textContent = "Write your first message...";
   }
+
+  messagesContainer.addEventListener("contextmenu", (event: MouseEvent) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+    const messageContainer = target.closest<HTMLElement>(".message-container");
+    if (messageContainer && messageContainer.classList.contains("outgoing")) {
+      event.preventDefault();
+
+      const menu = customContextMenuComponent(
+        async () => {
+          await messagesService.editMessage("1", "2");
+        },
+        async () => {
+          await messagesService.deleteMessage("1");
+        },
+      );
+
+      showContextMenu(menu, event.pageX, event.pageY);
+    }
+  });
 
   const textAreaSendContainer = new ElementCreator({
     parent: dialogContainer,
