@@ -2,8 +2,6 @@ import { authController } from "../controllers/auth.controller.js";
 import { Page } from "../types/page.type.js";
 import App from "./app.js";
 
-const BASE_PATH = "/atikin132-JSFE2025Q3/fun-chat";
-
 const routes: Record<string, Page> = {
   "/login": "login",
   "/main": "main",
@@ -38,7 +36,7 @@ export class Router {
       }
     });
 
-    window.addEventListener("popstate", () => {
+    window.addEventListener("hashchange", () => {
       this.resolve();
     });
 
@@ -46,43 +44,39 @@ export class Router {
   }
 
   private go(path: string): void {
-    history.pushState(undefined, "", `${BASE_PATH}${path}`);
-    this.resolve();
+    window.location.hash = path;
   }
 
   private back(): void {
-    if (history.length > 1) {
-      history.back();
+    if (window.history.length > 1) {
+      window.history.back();
     } else {
       this.go("/main");
     }
   }
 
   private resolve(): void {
-    const fullPath = window.location.pathname;
-    const path = fullPath.startsWith(BASE_PATH)
-      ? fullPath.slice(BASE_PATH.length)
-      : fullPath;
+    const hash = window.location.hash;
+    const path = hash ? hash.slice(1) : "/main";
 
-    const normalizedPath = path === "" || path === "/" ? "/main" : path;
-    const page = routes[normalizedPath];
+    const page = routes[path];
     const user = authController.getUser();
 
-    if (user && normalizedPath === "/login") {
+    if (user && path === "/login") {
       this.app.navigate("main");
-      history.replaceState(undefined, "", `${BASE_PATH}/main`);
+      window.location.hash = "#/main";
       return;
     }
 
-    if (!user && normalizedPath !== "/login") {
+    if (!user && !["/login", "/about"].includes(path)) {
       this.app.navigate("login");
-      history.replaceState(undefined, "", `${BASE_PATH}/login`);
+      window.location.hash = "#/login";
       return;
     }
 
     if (!page) {
       this.app.navigate("main");
-      history.replaceState(undefined, "", `${BASE_PATH}/main`);
+      window.location.hash = "#/main";
       return;
     }
 
