@@ -10,6 +10,7 @@ import {
   isUsersPayload,
 } from "../guards/is-user-payload.guard.js";
 import { messagesController } from "./messages.controller.js";
+import { currentSelectedUser } from "../pages/main/main.js";
 
 type UserMessageHandler = () => void;
 
@@ -56,6 +57,7 @@ export class UsersController {
           if (isUsersPayload(payload)) {
             this.userInactive(payload);
             messagesController.fetchAllUnreadCount(usersController.users);
+            messagesController.fetchAllHistory(usersController.users);
           }
           break;
         }
@@ -67,6 +69,7 @@ export class UsersController {
 
   userExternalLogin(payload: UserAuthPayload) {
     const incomingUser = payload.user;
+    this.changeUserLogined(incomingUser, true);
     const index = this.users.findIndex(
       (user) => user.login === incomingUser.login,
     );
@@ -80,12 +83,19 @@ export class UsersController {
 
   userExternalLogout(payload: UserAuthPayload) {
     const outgoingUser = payload.user;
+    this.changeUserLogined(outgoingUser, false);
     const index = this.users.findIndex(
       (user) => user.login === outgoingUser.login,
     );
 
     if (index >= 0 && this.users[index]) {
       this.users[index].isLogined = outgoingUser.isLogined ?? false;
+    }
+  }
+
+  private changeUserLogined(userExternal: User, isLogined: boolean) {
+    if (userExternal.login === currentSelectedUser?.login) {
+      currentSelectedUser.isLogined = isLogined;
     }
   }
 

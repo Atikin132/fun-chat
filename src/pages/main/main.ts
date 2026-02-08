@@ -12,11 +12,11 @@ import { scrollToBottom } from "../../utils/scroll-to-bottom.js";
 
 import { BasePage } from "../base-page.js";
 import "./main.css";
+export let currentSelectedUser: User;
 
 export class Main extends BasePage {
   private sidebar?: HTMLElement;
   private dialog?: HTMLElement;
-  private currentSelectedUser?: User;
 
   private renderUsers(): void {
     if (this.sidebar) {
@@ -32,7 +32,7 @@ export class Main extends BasePage {
       (user: User) => {
         void messagesService.fetchHistory(user.login);
         messagesController.withUser = user;
-        this.currentSelectedUser = user;
+        currentSelectedUser = user;
       },
       messagesController.userUnreadCountMap,
     );
@@ -47,7 +47,7 @@ export class Main extends BasePage {
       this.renderUsers();
     });
     messagesController.setRenderCallback(() => {
-      this.renderDialog(this.currentSelectedUser);
+      this.renderDialog(currentSelectedUser);
       this.renderUsers();
     });
 
@@ -73,11 +73,8 @@ export class Main extends BasePage {
             await messagesService.editMessage(messageEdit.id, text);
             messageEdit.id = "";
             messageEdit.text = "";
-          } else if (this.currentSelectedUser?.login !== undefined) {
-            await messagesService.sendMessage(
-              this.currentSelectedUser.login,
-              text,
-            );
+          } else if (currentSelectedUser?.login !== undefined) {
+            await messagesService.sendMessage(currentSelectedUser.login, text);
           }
         },
         messages.length === 0,

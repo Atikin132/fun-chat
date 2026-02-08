@@ -11,6 +11,7 @@ import { generateId } from "../utils/id-generator.js";
 import { isUnreadCountPayload } from "../guards/is-unread-count-payload.js";
 import { messagesService } from "../services/messages.service.js";
 import { usersController } from "./users.controller.js";
+import { currentSelectedUser } from "../pages/main/main.js";
 
 type MessageRenderHandler = () => void;
 
@@ -63,6 +64,12 @@ export class MessagesController {
               payload.messages,
               this.withUser?.login ?? "",
             );
+            if (currentSelectedUser?.login) {
+              for (const message of payload.messages) {
+                void messagesService.markAsRead(message.id);
+              }
+              this.fetchOneUnreadCount(this.withUser?.login ?? "");
+            }
           }
           break;
         }
@@ -140,6 +147,12 @@ export class MessagesController {
     if (messages.length === 0) return;
 
     this.dialogs.set(requestedUserLogin, [...messages]);
+  }
+
+  fetchAllHistory(users: User[]) {
+    for (const user of users) {
+      void messagesService.fetchHistory(user.login);
+    }
   }
 
   private onMessageDelivered(messageId: string) {
