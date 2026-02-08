@@ -7,17 +7,24 @@ import "./sidebar.component.css";
 
 const LOGIN_MAX_SIZE = "12";
 
-function renderUserList(usersContainer: HTMLElement, filteredUsers: User[]) {
+function renderUserList(
+  usersContainer: HTMLElement,
+  filteredUsers: User[],
+  userUnreadCountMap: Map<string, number>,
+) {
   usersContainer.innerHTML = "";
   filteredUsers.sort((a, b) => Number(b.isLogined) - Number(a.isLogined));
   for (const user of filteredUsers) {
-    usersContainer.append(userSidebarComponent(user));
+    usersContainer.append(
+      userSidebarComponent(user, userUnreadCountMap.get(user.login) ?? 0),
+    );
   }
 }
 
 export default function sidebarComponent(
   users: User[],
   updateDialog: (user: User) => void,
+  userUnreadCountMap: Map<string, number>,
 ): HTMLElement {
   const sidebar = new AsideCreator({
     classes: ["sidebar"],
@@ -56,7 +63,7 @@ export default function sidebarComponent(
     classes: ["sidebar__users-container"],
   }).getElement();
 
-  renderUserList(usersContainer, users);
+  renderUserList(usersContainer, users, userUnreadCountMap);
 
   searchInput.addEventListener("input", () => {
     const searchValue = searchInput.value.trim().toLowerCase();
@@ -64,9 +71,9 @@ export default function sidebarComponent(
       const filteredUsers = users.filter((user) =>
         user.login.toLowerCase().includes(searchValue),
       );
-      renderUserList(usersContainer, filteredUsers);
+      renderUserList(usersContainer, filteredUsers, userUnreadCountMap);
     } else {
-      renderUserList(usersContainer, users);
+      renderUserList(usersContainer, users, userUnreadCountMap);
     }
   });
 

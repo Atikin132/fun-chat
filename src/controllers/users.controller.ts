@@ -9,6 +9,7 @@ import {
   isUserAuthPayload,
   isUsersPayload,
 } from "../guards/is-user-payload.guard.js";
+import { messagesController } from "./messages.controller.js";
 
 type UserMessageHandler = () => void;
 
@@ -54,6 +55,7 @@ export class UsersController {
         case "USER_INACTIVE": {
           if (isUsersPayload(payload)) {
             this.userInactive(payload);
+            messagesController.fetchAllUnreadCount(usersController.users);
           }
           break;
         }

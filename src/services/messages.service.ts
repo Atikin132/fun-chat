@@ -22,9 +22,9 @@ export class MessagesService {
     });
   }
 
-  async fetchUnreadCount(fromUser: string) {
+  async fetchUnreadCount(id: string, fromUser: string) {
     await wsService.send({
-      id: generateId(),
+      id: id,
       type: "MSG_COUNT_NOT_READED_FROM_USER",
       payload: {
         user: { login: fromUser },

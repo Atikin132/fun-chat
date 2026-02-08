@@ -7,12 +7,18 @@ import {
 } from "../guards/is-message-payload.guard.js";
 import { User } from "../interfaces/user.interface.js";
 import { authController } from "./auth.controller.js";
+import { generateId } from "../utils/id-generator.js";
+import { isUnreadCountPayload } from "../guards/is-unread-count-payload.js";
+import { messagesService } from "../services/messages.service.js";
+import { usersController } from "./users.controller.js";
 
 type MessageRenderHandler = () => void;
 
 export class MessagesController {
   private dialogs = new Map<string, Message[]>();
   withUser?: User;
+  private unreadCountMap = new Map<string, string>();
+  userUnreadCountMap = new Map<string, number>();
 
   private renderCallback?: MessageRenderHandler | undefined;
 
@@ -33,12 +39,20 @@ export class MessagesController {
     wsService.onMessage((data: unknown) => {
       if (!isServerMessageTypePayload(data)) return;
 
-      const { type, payload } = data;
+      const { id, type, payload } = data;
 
       switch (type) {
         case "MSG_SEND": {
           if (isMessagePayload(payload)) {
             this.onMessageReceived(payload.message);
+            this.fetchOneUnreadCount(payload.message.from);
+          }
+          break;
+        }
+
+        case "MSG_COUNT_NOT_READED_FROM_USER": {
+          if (isUnreadCountPayload(payload) && id !== null) {
+            this.onUnreadCount(payload.count, id);
           }
           break;
         }
@@ -70,6 +84,9 @@ export class MessagesController {
         case "MSG_DELETE": {
           if (isMessagePayload(payload)) {
             this.onMessageDeleted(payload.message.id);
+            if (id === null) {
+              this.fetchAllUnreadCount(usersController.users);
+            }
           }
           break;
         }
@@ -94,6 +111,29 @@ export class MessagesController {
     const dialog = this.ensureDialog(otherUser);
 
     dialog.push(message);
+  }
+
+  private onUnreadCount(count: number, id: string) {
+    const login = this.unreadCountMap.get(id);
+    if (login !== undefined) {
+      this.userUnreadCountMap.set(login, count);
+      this.unreadCountMap.delete(id);
+    }
+  }
+
+  fetchOneUnreadCount(userLogin: string) {
+    if (userLogin === authController.getUser()?.login) {
+      return;
+    }
+    const id = generateId();
+    this.unreadCountMap.set(id, userLogin);
+    void messagesService.fetchUnreadCount(id, userLogin);
+  }
+
+  fetchAllUnreadCount(users: User[]) {
+    for (const user of users) {
+      this.fetchOneUnreadCount(user.login);
+    }
   }
 
   private onMessagesHistory(messages: Message[], requestedUserLogin: string) {

@@ -27,11 +27,15 @@ export class Main extends BasePage {
       (user) => user.login !== authController.getUser()?.login,
     );
 
-    this.sidebar = sidebarComponent(usersWithoutCurrent, (user: User) => {
-      void messagesService.fetchHistory(user.login);
-      messagesController.withUser = user;
-      this.currentSelectedUser = user;
-    });
+    this.sidebar = sidebarComponent(
+      usersWithoutCurrent,
+      (user: User) => {
+        void messagesService.fetchHistory(user.login);
+        messagesController.withUser = user;
+        this.currentSelectedUser = user;
+      },
+      messagesController.userUnreadCountMap,
+    );
     this.container.prepend(this.sidebar);
   }
 
@@ -44,6 +48,7 @@ export class Main extends BasePage {
     });
     messagesController.setRenderCallback(() => {
       this.renderDialog(this.currentSelectedUser);
+      this.renderUsers();
     });
 
     this.dialog = dialogComponent();

@@ -4,7 +4,10 @@ import ListItemCreator from "../../utils/list-item/list-item-creator.js";
 import ParagraphCreator from "../../utils/paragraph/paragraph-creator.js";
 import "./user-sidebar.component.css";
 
-export default function userSidebarComponent(user: User): HTMLElement {
+export default function userSidebarComponent(
+  user: User,
+  unreadCount: number,
+): HTMLElement {
   const userContainer = new ListItemCreator({
     classes: ["user-sidebar-container"],
   }).getElement();
@@ -34,7 +37,11 @@ export default function userSidebarComponent(user: User): HTMLElement {
     parent: userMessageContainer,
     classes: ["user-sidebar-container__message"],
   }).getElement();
-  message.classList.add("no-message");
+  if (unreadCount && unreadCount > 0) {
+    message.textContent = unreadCount.toString();
+  } else {
+    message.classList.add("no-message");
+  }
 
   return userContainer;
 }
