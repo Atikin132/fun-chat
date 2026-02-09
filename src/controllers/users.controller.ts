@@ -10,7 +10,6 @@ import {
   isUsersPayload,
 } from "../guards/is-user-payload.guard.js";
 import { messagesController } from "./messages.controller.js";
-import { currentSelectedUser } from "../pages/main/main.js";
 
 type UserMessageHandler = () => void;
 
@@ -94,8 +93,8 @@ export class UsersController {
   }
 
   private changeUserLogined(userExternal: User, isLogined: boolean) {
-    if (userExternal.login === currentSelectedUser?.login) {
-      currentSelectedUser.isLogined = isLogined;
+    if (userExternal.login === messagesController.currentSelectedUser?.login) {
+      messagesController.currentSelectedUser.isLogined = isLogined;
     }
   }
 

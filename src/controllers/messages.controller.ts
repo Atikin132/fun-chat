@@ -11,7 +11,6 @@ import { generateId } from "../utils/id-generator.js";
 import { isUnreadCountPayload } from "../guards/is-unread-count-payload.js";
 import { messagesService } from "../services/messages.service.js";
 import { usersController } from "./users.controller.js";
-import { currentSelectedUser } from "../pages/main/main.js";
 
 type MessageRenderHandler = () => void;
 
@@ -20,6 +19,7 @@ export class MessagesController {
   withUser?: User;
   private unreadCountMap = new Map<string, string>();
   userUnreadCountMap = new Map<string, number>();
+  currentSelectedUser?: User;
 
   private renderCallback?: MessageRenderHandler | undefined;
 
@@ -46,6 +46,9 @@ export class MessagesController {
         case "MSG_SEND": {
           if (isMessagePayload(payload)) {
             this.onMessageReceived(payload.message);
+            if (payload.message.from === this.currentSelectedUser?.login) {
+              void messagesService.markAsRead(payload.message.id);
+            }
             this.fetchOneUnreadCount(payload.message.from);
           }
           break;
@@ -64,7 +67,7 @@ export class MessagesController {
               payload.messages,
               this.withUser?.login ?? "",
             );
-            if (currentSelectedUser?.login) {
+            if (this.currentSelectedUser?.login !== undefined) {
               for (const message of payload.messages) {
                 void messagesService.markAsRead(message.id);
               }
