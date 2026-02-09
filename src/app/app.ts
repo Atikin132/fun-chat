@@ -5,6 +5,9 @@ import "./app.css";
 import footer from "../layout/footer/footer.js";
 import { Page } from "../types/page.type.js";
 import { authController } from "../controllers/auth.controller.js";
+import { wsService } from "../services/websocket.service.js";
+import loaderComponent from "../components/loader.component/loader.component.js";
+import { WSStatus } from "../types/websocket-status.enum.js";
 
 export default class App {
   private screens = new Map<Page, Screen>();
@@ -14,6 +17,8 @@ export default class App {
   private headerElement?: HTMLElement;
   private main?: HTMLElement;
   private footer?: HTMLElement;
+
+  private isLoaderCreated = false;
 
   constructor(root: HTMLElement) {
     this.root = root;
@@ -36,6 +41,18 @@ export default class App {
     this.root.append(this.headerElement);
     this.root.append(this.main);
     this.root.append(this.footer);
+    const loader = loaderComponent();
+    wsService.onStatusChange((status) => {
+      if (status === WSStatus.CONNECTING || status === WSStatus.CLOSED) {
+        if (!this.isLoaderCreated) {
+          this.root.append(loader);
+          this.isLoaderCreated = true;
+        }
+      } else {
+        loader.remove();
+        this.isLoaderCreated = false;
+      }
+    });
   }
 
   register(page: Page, screen: Screen): void {

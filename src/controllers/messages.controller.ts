@@ -11,8 +11,7 @@ import { generateId } from "../utils/id-generator.js";
 import { isUnreadCountPayload } from "../guards/is-unread-count-payload.js";
 import { messagesService } from "../services/messages.service.js";
 import { usersController } from "./users.controller.js";
-
-type MessageRenderHandler = () => void;
+import { MessageRenderHandler } from "../types/message-render-handler.type.js";
 
 export class MessagesController {
   private dialogs = new Map<string, Message[]>();
@@ -154,6 +153,9 @@ export class MessagesController {
 
   fetchAllHistory(users: User[]) {
     for (const user of users) {
+      if (user.login === authController.getUser()?.login) {
+        return;
+      }
       void messagesService.fetchHistory(user.login);
     }
   }

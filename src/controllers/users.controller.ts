@@ -10,8 +10,7 @@ import {
   isUsersPayload,
 } from "../guards/is-user-payload.guard.js";
 import { messagesController } from "./messages.controller.js";
-
-type UserMessageHandler = () => void;
+import { UserMessageHandler } from "../types/user-message-handler.type.js";
 
 export class UsersController {
   users: User[] = [];
