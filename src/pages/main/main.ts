@@ -57,7 +57,7 @@ export class Main extends BasePage {
   }
 
   private renderDialog(user?: User) {
-    if (user?.login !== undefined) {
+    if (user) {
       if (this.dialog) {
         this.dialog.remove();
       }
