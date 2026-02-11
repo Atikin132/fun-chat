@@ -25,15 +25,13 @@ export default class App {
   }
 
   init(): void {
-    this.headerElement = header(
-      authController.getUser()?.login ?? "",
-      async () => {
-        await authController.logout(
-          authController.getUser()?.login ?? "",
-          authController.getUser()?.password ?? "",
-        );
-      },
-    );
+    const currentUser = authController.getUser();
+    this.headerElement = header(currentUser?.login ?? "", async () => {
+      await authController.logout(
+        currentUser?.login ?? "",
+        currentUser?.password ?? "",
+      );
+    });
     this.main = new MainCreator({
       classes: ["main"],
     }).getElement();
