@@ -1,11 +1,10 @@
+import { LOGIN_MAX_SIZE } from "../../constants/validation.constants.js";
 import { User } from "../../interfaces/user.interface.js";
 import AsideCreator from "../../utils/aside/aside-creator.js";
 import InputCreator from "../../utils/input/input-creator.js";
 import UnorderedListCreator from "../../utils/unordered-list/unordered-list-creator.js";
 import userSidebarComponent from "../user-sidebar.component/user-sidebar.component.js";
 import "./sidebar.component.css";
-
-const LOGIN_MAX_SIZE = "12";
 
 function renderUserList(
   usersContainer: HTMLElement,

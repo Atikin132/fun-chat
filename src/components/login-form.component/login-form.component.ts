@@ -3,10 +3,11 @@ import LabelCreator from "../../utils/label/label-creator.js";
 import InputCreator from "../../utils/input/input-creator.js";
 import "./login-form.component.css";
 import ButtonCreator from "../../utils/button/button-creator.js";
-
-const LOGIN_MAX_SIZE = "12";
-const LOGIN_MIN_SIZE = 4;
-const PASSWORD_MIN_SIZE = 6;
+import {
+  LOGIN_MAX_SIZE,
+  LOGIN_MIN_SIZE,
+  PASSWORD_MIN_SIZE,
+} from "../../constants/validation.constants.js";
 
 const validateInput = (inputElement: HTMLInputElement, min: number) => {
   const value = inputElement.value.trim();
