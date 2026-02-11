@@ -2,6 +2,8 @@ import { WSHandler } from "../types/websocket-handler.type.js";
 import { WSStatus } from "../types/websocket-status.enum.js";
 
 const RECONNECT_DELAY = 3000;
+const WS_URL = "ws://localhost:4000";
+
 export class WebSocketService {
   private socket?: WebSocket;
   private handlers: WSHandler<unknown>[] = [];
@@ -15,7 +17,7 @@ export class WebSocketService {
   private connect() {
     this.emitStatus(WSStatus.CONNECTING);
 
-    this.socket = new WebSocket("ws://localhost:4000");
+    this.socket = new WebSocket(WS_URL);
 
     this.connectPromise = new Promise((resolve) => {
       this.socket?.addEventListener("open", () => {
